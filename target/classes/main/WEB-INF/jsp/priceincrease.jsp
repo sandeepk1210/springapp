@@ -14,7 +14,7 @@
 		<fmt:message key="priceIncrease.heading" />
 	</h1>
 
-	<form:form method="post" modelAttribute="priceIncrease">
+	<form:form method="post" modelAttribute="priceModify">
 		<table width="95%" border="0" cellpadding="5" cellspacing="0"
 			dir="ltr">
 			<tbody>

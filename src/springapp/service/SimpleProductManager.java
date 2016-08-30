@@ -11,15 +11,6 @@ public class SimpleProductManager implements ProductManager {
 
 	private List<Product> products;
 
-	public void increasePrice(int percentage){
-		if(products != null){
-			for(Product product : products){
-				double newPrice = product.getPrice().doubleValue() * (100 + percentage) / 100;
-				product.setPrice(newPrice);
-			}
-		}
-	}
-
 	public List<Product> getProducts() {
 		return products;
 	}
@@ -28,17 +19,16 @@ public class SimpleProductManager implements ProductManager {
 		this.products = products;
 	}
 
-	@Override
-	public int decreasePrice(String productName, int percentage) {
-		if(productName != null){
+	/* 
+	 * Modify the price as percentage of all the products. 
+	 * Percentage can be +ve or -ve
+	 */
+	public void modifyPrice(int percentage){
+		if(products != null && percentage != 0){
 			for(Product product : products){
-				if(product.getDescription() == productName){
-					double newPrice = product.getPrice().doubleValue() * (100 - percentage) / 100;
-					product.setPrice(newPrice);
-					return 0;
-				}
+				double newPrice = product.getPrice().doubleValue() * (100 + percentage) / 100;
+				product.setPrice(newPrice);
 			}
 		}
-		return 1;
 	}
 }

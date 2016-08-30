@@ -9,7 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.validator.constraints.NotBlank;
 
-public class PriceIncrease {
+public class PriceModify {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@NotNull(message="No inputs!!  If wanted to increase price, please provide a input.")

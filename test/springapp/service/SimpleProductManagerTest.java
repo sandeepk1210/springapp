@@ -24,8 +24,8 @@ public class SimpleProductManagerTest {
 	private static Double TABLE_PRICE = new Double(150.50);
 	private static String TABLE_DESCRIPTION = "Table";
 
-	private static int POSITIVE_PRICE_INCREASE = 10;
-	private static int PRICE_DECREASE_PERCENT = 10;
+	private static int PRICE_INCREASE = 10;
+	private static int PRICE_DECREASE = -10;
 
 	@Before
 	public void setUp() throws Exception {
@@ -52,7 +52,7 @@ public class SimpleProductManagerTest {
 	}
 
 	@Test
-	public void testGetProducts(){
+	public void testGetProductsWithValidProdcuts(){
 		List<Product> products = productManager.getProducts();
 		assertNotNull(products);
 		assertEquals(PRODUCT_COUNT, products.size());
@@ -67,29 +67,19 @@ public class SimpleProductManagerTest {
 	}
 
 	@Test
-	public void testIncreasePriceWithNullListOfProducts() {
+	public void testModifyPriceWithNullListOfProducts() {
 		try{
 			productManager = new SimpleProductManager();
-			productManager.increasePrice(POSITIVE_PRICE_INCREASE);}
+			productManager.modifyPrice(PRICE_INCREASE);
+		}
 		catch(NullPointerException e){
 			fail("Product list is null");
 		}
 	}
 
 	@Test
-	public void testIncreasePriceWithEmptyListOfProducts(){
-		try{
-			productManager = new SimpleProductManager();
-			productManager.setProducts(new ArrayList<Product>());
-			productManager.increasePrice(POSITIVE_PRICE_INCREASE);
-		}catch(Exception ex){
-			fail("Products list is empty");
-		}
-	}
-
-	@Test
-	public void testIncreasePriceWithPositivePercentage(){
-		productManager.increasePrice(POSITIVE_PRICE_INCREASE);
+	public void testModifyPriceWithPositivePercentage(){
+		productManager.modifyPrice(PRICE_INCREASE);
 		double expectedChairPriceWithIncrease = 22.55;
 		double expectedTablePriceWithIncrease = 165.55;
 
@@ -100,12 +90,26 @@ public class SimpleProductManagerTest {
 		product = products.get(1);
 		assertEquals(expectedTablePriceWithIncrease, product.getPrice(), 0);
 	}
+	
+	@Test
+	public void testModifyPriceWithNegativePercentage(){
+		productManager.modifyPrice(PRICE_DECREASE);
+		double expectedChairPriceWithDecrease = 18.45;
+		double expectedTablePriceWithDecrease = 135.45;
+
+		List<Product> products = productManager.getProducts();
+		Product product = products.get(0);
+		assertEquals(expectedChairPriceWithDecrease, product.getPrice(), 0);
+
+		product = products.get(1);
+		assertEquals(expectedTablePriceWithDecrease, product.getPrice(), 0);
+	}
 
 	@Test
-	public void testIncreasePriceWithZeroPercentage(){
-		productManager.increasePrice(0);
-		double expectedChairPriceWithIncrease = 20.55;
-		double expectedTablePriceWithIncrease = 150.55;
+	public void testModifyPriceWithZeroPercentage(){
+		productManager.modifyPrice(0);
+		double expectedChairPriceWithIncrease = CHAIR_PRICE;
+		double expectedTablePriceWithIncrease = TABLE_PRICE;
 
 		List<Product> products = productManager.getProducts();
 		Product product = products.get(0);
@@ -113,47 +117,5 @@ public class SimpleProductManagerTest {
 
 		product = products.get(1);
 		assertEquals(expectedTablePriceWithIncrease, product.getPrice(), 2);
-	}
-
-	@Test
-	public void testDecreasePriceForEmptyProduct(){
-		try{
-			String productName = null;
-			productManager.decreasePrice(productName, 0);
-		}catch(NullPointerException e){
-			fail("Exception - No product passed to decrease its price");
-		}
-	}
-
-	@Test
-	public void testDecreasePriceForValidProduct(){
-		String productName = CHAIR_DESCRIPTION;
-		double expectedChairPriceWithDecrease = 18.49;
-		
-		int status = productManager.decreasePrice(productName, PRICE_DECREASE_PERCENT);
-		assertEquals(0, status);
-		
-		List<Product> products = productManager.getProducts();
-
-		Product product = products.get(0);
-		assertEquals(expectedChairPriceWithDecrease, product.getPrice(), 2);
-
-		product = products.get(1);
-		assertEquals(TABLE_PRICE, product.getPrice(), 2);
-	}
-
-	@Test
-	public void testDecreasePriceForInvalidProduct(){
-		String productName = "InvalidProductName";
-		int status = productManager.decreasePrice(productName, PRICE_DECREASE_PERCENT);
-		
-		assertEquals(1, status);
-		
-		List<Product> products = productManager.getProducts();
-		Product product = products.get(0);
-		assertEquals(CHAIR_PRICE, product.getPrice(), 2);
-
-		product = products.get(1);
-		assertEquals(TABLE_PRICE, product.getPrice(), 2);
 	}
 }

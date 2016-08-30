@@ -10,19 +10,19 @@ import org.junit.Test;
 
 public class PriceIncreaseTest {
 
-	PriceIncrease priceIncrease;
+	PriceModify priceModify;
 
 	@Before
 	public void setUp() throws Exception {
-		priceIncrease = new PriceIncrease();
+		priceModify = new PriceModify();
 	}
 
 	@Test
 	public void testSetAndGetPercentage(){
 		int testPercentage = 10;
 
-		priceIncrease.setPercentage(testPercentage);
-		assertEquals(testPercentage, priceIncrease.getPercentage());
+		priceModify.setPercentage(testPercentage);
+		assertEquals(testPercentage, priceModify.getPercentage());
 
 	}
 }

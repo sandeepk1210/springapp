@@ -12,7 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import springapp.service.PriceIncrease;
+import springapp.service.PriceModify;
 import springapp.service.ProductManager;
 
 @Controller
@@ -29,7 +29,7 @@ public class InventoryController {
 	}
 
 	@RequestMapping({"/", "/home"})
-	public String handleRequest(Map<String, Object> map){
+	public String showHomePage(Map<String, Object> map){
 		String now = (new Date()).toString();
 
 		map.put("now", now);
@@ -41,22 +41,24 @@ public class InventoryController {
 	}
 
 	@RequestMapping(value="/priceincrease", method=RequestMethod.GET)
-	public String showPriceIncreasePage(Map<String, Object> map){
-		map.put("priceIncrease", new PriceIncrease());
+	public String showIncreaseAllPrices(Map<String, Object> map){
+		map.put("priceModify", new PriceModify());
 
 		logger.info("Returning price increase home page, where you could increase product prices.");
 		return priceIncreasePage;
 	}
 
 	@RequestMapping(value="/priceincrease", method=RequestMethod.POST)
-	public String priceIncreaseFromForm(@Valid PriceIncrease priceIncrease, BindingResult bindingResult){
+	public String priceIncreaseFromForm(@Valid PriceModify priceModify, BindingResult bindingResult){
+		int percentage = priceModify.getPercentage();
+		
 		logger.info("Validating price increase request");
 		if(bindingResult.hasErrors()){
 			logger.info("Error in input provided for price validation");
 			return priceIncreasePage;
 		}
-		productManager.increasePrice(priceIncrease.getPercentage());
-		logger.info("Product prices increased by " + priceIncrease.getPercentage() + "%");
+		productManager.modifyPrice(percentage);
+		logger.info("Product prices increased by " + percentage + "%");
 		return "redirect:/" + homePage;
 	}
 }

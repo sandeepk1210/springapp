@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import springapp.domain.Product;
-import springapp.service.PriceIncrease;
 import springapp.service.ProductManager;
 
 public class InventoryControllerTest {
@@ -29,7 +28,7 @@ public class InventoryControllerTest {
 	}
 
 	@Test
-	public void testHandleRequestView() {
+	public void testShowHomePageValidProducts() {
 		/* To test what is being send into inventory model, we need to 
 		 * mock :: ProductManager class
 		 * Stubbing of method :: Enabled stubbing of productMager.getProducts method 
@@ -39,7 +38,7 @@ public class InventoryControllerTest {
 		List<Product> products = asList(new Product(), new Product());
 		when(productManager.getProducts()).thenReturn(products);
 
-		String viewName = inventoryController.handleRequest(model);
+		String viewName = inventoryController.showHomePage(model);
 
 		assertEquals(InventoryController.homePage, viewName);
 		assertEquals((new Date()).toString(), model.get("now"));
@@ -51,7 +50,7 @@ public class InventoryControllerTest {
 
 	@Test
 	public void testShowPriceIncreasePage(){
-		String viewName = inventoryController.showPriceIncreasePage(model);
+		String viewName = inventoryController.showIncreaseAllPrices(model);
 		
 		/* Expecting to return the new object of PriceIncrease*/
 		//assertEquals(new PriceIncrease(), model.get("priceIncrease"));

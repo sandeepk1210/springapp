@@ -47,6 +47,11 @@
 		<property name="description" value="Chair" />
 		<property name="price" value="22.79" />
 	</bean>
+	
+	<bean id="product4" class="springapp.domain.Product">
+		<property name="description" value="TV" />
+		<property name="price" value="199.999" />
+	</bean>
 
 	<bean id="productManager" class="springapp.service.SimpleProductManager">
 		<property name="products">
@@ -54,6 +59,7 @@
 				<ref bean="product1" />
 				<ref bean="product2" />
 				<ref bean="product3" />
+				<ref bean="product4" />
 			</list>
 		</property>
 	</bean>

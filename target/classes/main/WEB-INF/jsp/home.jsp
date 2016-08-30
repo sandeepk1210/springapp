@@ -16,13 +16,21 @@
 		<c:out value="${now}" />
 	</p>
 	<h3>Products</h3>
-	<c:forEach items="${products}" var="prod">
-		<c:out value="${prod.description}" />
-		<i>$<c:out value="${prod.price}" /></i>
-		<br>
-		<br>
-	</c:forEach>
-	<br>
-	<a href="<c:url value="priceincrease" />">Increase Price</a>
+	<c:choose>
+		<c:when test="${ empty( products ) }">
+			We don't find any products in database. Please try adding them
+				first.
+		</c:when>
+		<c:otherwise>
+			<c:forEach items="${products}" var="prod">
+				<c:out value="${prod.description}" />
+				<i>$<c:out value="${prod.price}" /></i>
+				<br>
+				<br>
+			</c:forEach>
+			<br>
+			<a href="<c:url value="priceincrease" />">Increase Price</a>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>
