@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jd="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jdbc
+      http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd">
+
+	<!-- if no handler mapping beans are found, then DispatcherServlet creates 
+		and uses BeanNameUrlHandlerMapping and DefaultAnnotationHandler- Mapping; 
+		BeanNameUrlHandlerMapping class will use the bean name to map to the URL 
+		in the request so that the DispatcherServlet knows which controller must 
+		be invoked for handling different URLs -->
+	<!-- <bean name="/hello.htm" class="springapp.HelloController" /> -->
+
+	<!-- DefaultAnnotationHandlerMapping maps requests to controller methods 
+		that are annotated with @RequestMapping -->
+
+	<!-- To flip on all of the annotation-driven features you’ll need from Spring 
+		MVC -->
+	<mvc:annotation-driven />
+
+	<!-- <context:annotation-config> tells Spring that you intend to use annotation-based 
+		wiring in Spring. -->
+	<context:annotation-config />
+
+	<context:component-scan base-package="springapp.web" />
+	<context:component-scan base-package="springapp.service" />
+
+	<!-- Injecting some hardcoded values for the Product -->
+	<bean id="product1" class="springapp.domain.Product">
+		<property name="description" value="Lamp" />
+		<property name="price" value="5.75" />
+	</bean>
+
+	<bean id="product2" class="springapp.domain.Product">
+		<property name="description" value="Table" />
+		<property name="price" value="75.25" />
+	</bean>
+
+	<bean id="product3" class="springapp.domain.Product">
+		<property name="description" value="Chair" />
+		<property name="price" value="22.79" />
+	</bean>
+
+	<bean id="productManager" class="springapp.service.SimpleProductManager">
+		<property name="products">
+			<list>
+				<ref bean="product1" />
+				<ref bean="product2" />
+				<ref bean="product3" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>
