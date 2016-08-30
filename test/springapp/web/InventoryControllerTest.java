@@ -23,7 +23,8 @@ public class InventoryControllerTest {
 	@Before
 	public void setup(){
 		productManager = mock(ProductManager.class);
-		inventoryController = new InventoryController(productManager);
+		inventoryController = new InventoryController();
+		inventoryController.setProductManager(productManager);
 		model = new HashMap<String,Object>();
 	}
 

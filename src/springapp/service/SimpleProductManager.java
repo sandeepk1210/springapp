@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-//import springapp.dao.ProductDao;
 import springapp.domain.Product;
 
 @Service
 public class SimpleProductManager implements ProductManager {
 
 	private List<Product> products;
-	//private ProductDao productDao;
 
 	public void increasePrice(int percentage){
 		if(products != null){
@@ -23,7 +21,6 @@ public class SimpleProductManager implements ProductManager {
 	}
 
 	public List<Product> getProducts() {
-		//return productDao.getProductList();
 		return products;
 	}
 

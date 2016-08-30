@@ -24,11 +24,7 @@ public class InventoryController {
 	@Autowired
 	private ProductManager productManager;
 
-	public InventoryController(){
-		
-	}
-	
-	public InventoryController(ProductManager productManager){
+	public void setProductManager(ProductManager productManager) {
 		this.productManager = productManager;
 	}
 
